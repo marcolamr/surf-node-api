@@ -1,8 +1,8 @@
 {
   "App": {
-    "port": "PORT || 3000",
+    "port": "PORT",
     "database": {
-      "mongoUrl": "MONGODB_URL || mongodb://localhost:27017/surf-forecast"
+      "mongoUrl": "MONGODB_URL"
     },
     "auth": {
       "key": "some-key",
