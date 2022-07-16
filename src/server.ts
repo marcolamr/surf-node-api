@@ -1,4 +1,4 @@
-import '@src/util/module-alias';
+import './util/module-alias';
 
 import { Server } from '@overnightjs/core';
 import bodyParser from 'body-parser';
