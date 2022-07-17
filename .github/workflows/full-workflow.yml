@@ -3,7 +3,15 @@
 
 name: Complete workflow
 
-on: ['push']
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 jobs:
   build:
@@ -12,24 +20,38 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        mongodb-version: [5.0]
+
+    services:
+      mongodb:
+        image: mongo:5.0
+        ports:
+          - 27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v2
-      - run: git fetch --prune --unshallow
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.1.0
-        with:
-          mongodb-version: ${{ matrix.mongodb-version }}
-
       - name: Install dependencies
         run: npm install --frozen-lockfile
 
       - name: Run all tests
+        env:
+          MONGODB_URL: mongodb://localhost:${{ job.services.mongodb.ports[27017] }}/surf-forecast-test
         run: npm run test
+
+      # - name: Deploy application
+      #   if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' }}
+      #   uses: akhileshns/heroku-deploy@v3.12.12
+      #   with:
+      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      #     heroku_app_name: 'mr-surf-api'
+      #     heroku_email: 'marcola.mr@gmail.com'
