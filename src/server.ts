@@ -38,11 +38,11 @@ export class SetupServer extends Server {
 
   private setupExpress(): void {
     this.app.use(bodyParser.json());
-    this.app.use(
-      expressPino({
-        logger,
-      })
-    );
+    // this.app.use(
+    //   expressPino({
+    //     logger,
+    //   })
+    // );
     this.app.use(
       cors({
         origin: '*',
