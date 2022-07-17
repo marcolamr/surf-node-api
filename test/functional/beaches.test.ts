@@ -26,7 +26,7 @@ describe('Beaches functional tests', () => {
         position: 'E',
       };
 
-      const response = await global.testRequest
+      const response = await testRequest
         .post('/beaches')
         .set({ 'x-access-token': token })
         .send(newBeach);
@@ -42,7 +42,7 @@ describe('Beaches functional tests', () => {
         name: 'Manly',
         position: 'E',
       };
-      const response = await global.testRequest
+      const response = await testRequest
         .post('/beaches')
         .set({ 'x-access-token': token })
         .send(newBeach);

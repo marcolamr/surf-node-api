@@ -14,7 +14,7 @@ describe('Users functional tests', () => {
         password: '1234',
       };
 
-      const response = await global.testRequest.post('/users').send(newUser);
+      const response = await testRequest.post('/users').send(newUser);
 
       expect(response.status).toBe(201);
       await expect(
@@ -33,7 +33,7 @@ describe('Users functional tests', () => {
         email: 'john@mail.com',
         password: '1234',
       };
-      const response = await global.testRequest.post('/users').send(newUser);
+      const response = await testRequest.post('/users').send(newUser);
 
       expect(response.status).toBe(400);
       expect(response.body).toEqual({
@@ -50,8 +50,8 @@ describe('Users functional tests', () => {
         password: '1234',
       };
 
-      await global.testRequest.post('/users').send(newUser);
-      const response = await global.testRequest.post('/users').send(newUser);
+      await testRequest.post('/users').send(newUser);
+      const response = await testRequest.post('/users').send(newUser);
 
       expect(response.status).toBe(409);
       expect(response.body).toEqual({
@@ -73,7 +73,7 @@ describe('Users functional tests', () => {
 
       await new User(newUser).save();
 
-      const response = await global.testRequest
+      const response = await testRequest
         .post('/users/authenticate')
         .send({ email: newUser.email, password: newUser.password });
 
@@ -83,7 +83,7 @@ describe('Users functional tests', () => {
     });
 
     it('Should return UNAUTHORIZED if the user with the given email is not found', async () => {
-      const response = await global.testRequest
+      const response = await testRequest
         .post('/users/authenticate')
         .send({ email: 'some-email@mail.com', password: '1234' });
 
@@ -99,7 +99,7 @@ describe('Users functional tests', () => {
 
       await new User(newUser).save();
 
-      const response = await global.testRequest
+      const response = await testRequest
         .post('/users/authenticate')
         .send({ email: newUser.email, password: 'different password' });
 
@@ -117,7 +117,7 @@ describe('Users functional tests', () => {
 
       const user = await new User(newUser).save();
       const token = AuthService.generateToken(user.toJSON());
-      const { body, status } = await global.testRequest
+      const { body, status } = await testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });
 
@@ -135,7 +135,7 @@ describe('Users functional tests', () => {
       //create a new user but don't save it
       const user = new User(newUser);
       const token = AuthService.generateToken(user.toJSON());
-      const { body, status } = await global.testRequest
+      const { body, status } = await testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });
 

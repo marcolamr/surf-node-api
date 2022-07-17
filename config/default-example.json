@@ -1,6 +1,10 @@
 {
   "App": {
     "port": 3000,
+    "rateLimit": {
+      "windowMs": 3600000,
+      "max": 2
+    },
     "database": {
       "mongoUrl": "mongodb://localhost:27017/your-database"
     },

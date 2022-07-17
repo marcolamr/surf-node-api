@@ -1,6 +1,10 @@
 {
   "App": {
     "port": "PORT",
+    "rateLimit": {
+      "windowMs": "RATE_LIMIT_TIME_MS",
+      "max": "RATE_LIMIT_MAX"
+    },
     "database": {
       "mongoUrl": "MONGODB_URL"
     },
